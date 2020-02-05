@@ -17,31 +17,18 @@ class ImageForm extends Component {
       super(); {
 
       }
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleChange(event) {
-      event.preventDefault();
-      images.push({url: event.target.value});
-      }
-
-    handleSubmit(event) {
-      event.preventDefault();
-      ImageList();
-    }
-
-
 
   render() {
     return (
     <div className="imgForm">
-      <form onSubmit={this.handleSubmit}>
+      <form>
         <label htmlFor="url">Add an Image</label>
-        <input id="url" onChange={this.handleChange} placeholder="enter image url" />
+        <input id="url" onChange={this.props.handleChange} placeholder="enter image url" />
         <label htmlFor="caption">Give your image a caption!</label>
         <input id="caption" placeholder="caption.." />
 
-        <button type="submit">Submit Image</button>
+        <button type="submit" onSubmit={this.props.handleSubmit}>Submit Image</button>
         <button></button>
       </form>
     </div>
@@ -73,24 +60,35 @@ class ImageBoard extends Component {
     this.state = {
       images: []
     }
-
-    this.addImg = this.addImg.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.setState({images})
   }
 
-  addImg(url) {
-    url.push(this.state.images.url);
-    console.log(this.state.images.url);
+  handleChange(event) {
+
+    this.setState({
+      url: event.target.value
+    })
   }
+
+  handleSubmit() {
+    console.log(this.state);
+  }
+
+  // handleChange(event) {
+  //   event.preventDefault();
+  //   images.push({url: event.target.value});
+  //   }
 
   render() {
     console.log(this.state);
     return (
       <div className="imgboard">
-        <ImageForm images={this.state.images} addImage={this.addImg}/>
+        <ImageForm images={this.state.images} handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>
         <ImageList images={this.state.images}/>
       </div>
     )
