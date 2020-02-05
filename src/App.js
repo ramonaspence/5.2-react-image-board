@@ -13,21 +13,23 @@ let images = [
 // }
 
 class ImageForm extends Component {
-  constructor(props) {
-    super(props); {}
+    constructor() {
+      super(); {
 
-    this.addImage = this.addImage.bind(this);
-  }
+      }
+      this.handleChange = this.handleChange.bind(this);
+      this.handleClick = this.handleClick.bind(this);
+    }
+    handleChange(event) {
+      event.preventDefault();
+      this.setState({url: event.target.value});
+    }
 
-  addImage(e, url) {
-    e.preventDefault();
-    console.log('addImg button clicked');
-    // let images = [...this.props.images.url];
-    // this.images.url.push(url);
-    // this.setState(url);
+    handleClick(event) {
+      event.preventDefault();
 
+    }
 
-  }
 
 
   render() {
@@ -35,11 +37,11 @@ class ImageForm extends Component {
     <div className="imgForm">
       <form>
         <label htmlFor="url">Add an Image</label>
-        <input id="url" value={images.url} placeholder="enter image url" />
+        <input id="url" onChange={this.handleChange} placeholder="enter image url" />
         <label htmlFor="caption">Give your image a caption!</label>
-        <input id="caption" value={images.caption} placeholder="caption.." />
+        <input id="caption" placeholder="caption.." />
 
-        <button onClick={this.addImage}>Submit Image</button>
+        <button onClick={this.handleClick}>Submit Image</button>
         <button></button>
       </form>
     </div>
@@ -71,6 +73,8 @@ class ImageBoard extends Component {
     this.state = {
       images: []
     }
+
+    this.addImg = this.addImg.bind(this);
   }
 
   componentDidMount() {
@@ -79,13 +83,14 @@ class ImageBoard extends Component {
 
   addImg(url) {
     url.push(this.state.images.url);
+    console.log(this.state.images.url);
   }
 
   render() {
     console.log(this.state);
     return (
       <div className="imgboard">
-        <ImageForm addImage={this.addImage}/>
+        <ImageForm addImage={this.addImg}/>
         <ImageList images={this.state.images}/>
       </div>
     )
