@@ -13,33 +13,51 @@ let images = [
 // }
 
 class ImageForm extends Component {
-    constructor() {
-      super(); {
-
+    constructor(props) {
+      super(props); {
+        this.state = {
+          url: ''
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
       }
+    }
+    handleChange(e) {
+      e.preventDefault();
+      this.setState({[e.target.name]: e.target.value});
+      console.log(e.target.value);
+    }
+
+    handleSubmit(e) {
+      e.preventDefault();
+      this.props.addImg(this.state);
     }
 
   render() {
     return (
-    <div className="imgForm">
-      <form>
-        <label htmlFor="url">Add an Image</label>
-        <input id="url" onChange={this.props.handleChange} placeholder="enter image url" />
-        <label htmlFor="caption">Give your image a caption!</label>
-        <input id="caption" placeholder="caption.." />
 
-        <button onClick={this.props.handleClick}>Submit Image</button>
-        <button></button>
+      <form onSubmit={this.handleSubmit}>
+        <div className="imgForm">
+          <label htmlFor="url">Add an Image</label>
+          <input id="url" name="url" name='url' onChange={this.handleChange} placeholder="enter image url" />
+          <label htmlFor="caption">Give your image a caption!</label>
+          <input id="caption" name='caption' onChange={this.handleChange} placeholder="caption.." />
+
+          <button className='btn btn-primary'>Submit Image</button>
+          </div>
       </form>
-    </div>
+
   );}
 }
+
+
+///////
 
 class ImageList extends Component {
   render() {
     let images = this.props.images.map((image, index) => (
     <div className="imgList" key={index}>
-      <div className="imgCard">
+        <div className="imgCard">
         <img src={image.url} alt="" />
         <span>{image.caption}</span>
       </div>
@@ -60,33 +78,31 @@ class ImageBoard extends Component {
     this.state = {
       images: []
     }
-    this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.addImg = this.addImg.bind(this);
   }
 
   componentDidMount() {
     this.setState({images})
   }
 
-  handleChange(event) {
-    images.push({url: event.target.value});
-
-}
-  handleClick(event) {
-    event.preventDefault();
-    console.log(this.state);
+  addCaption(caption) {
+    let images = [...this.state.images];
+    images.push(caption);
+    this.setState({images})
   }
 
-  // handleChange(event) {
-  //   event.preventDefault();
-  //   images.push({url: event.target.value});
-  //   }
+  addImg(url) {
+    let images = [...this.state.images];
+    images.push(url);
+    this.setState({images});
+  }
+
 
   render() {
     console.log(this.state);
     return (
       <div className="imgboard">
-        <ImageForm images={this.state.images} handleClick={this.handleClick} handleChange={this.handleChange}/>
+        <ImageForm images={this.state.images} addImg={this.addImg}  />
         <ImageList images={this.state.images}/>
       </div>
     )
