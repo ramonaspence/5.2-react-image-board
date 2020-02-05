@@ -18,16 +18,16 @@ class ImageForm extends Component {
 
       }
       this.handleChange = this.handleChange.bind(this);
-      this.handleClick = this.handleClick.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleChange(event) {
       event.preventDefault();
-      this.setState({url: event.target.value});
-    }
+      images.push({url: event.target.value});
+      }
 
-    handleClick(event) {
+    handleSubmit(event) {
       event.preventDefault();
-
+      ImageList();
     }
 
 
@@ -35,13 +35,13 @@ class ImageForm extends Component {
   render() {
     return (
     <div className="imgForm">
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <label htmlFor="url">Add an Image</label>
         <input id="url" onChange={this.handleChange} placeholder="enter image url" />
         <label htmlFor="caption">Give your image a caption!</label>
         <input id="caption" placeholder="caption.." />
 
-        <button onClick={this.handleClick}>Submit Image</button>
+        <button type="submit">Submit Image</button>
         <button></button>
       </form>
     </div>
@@ -90,7 +90,7 @@ class ImageBoard extends Component {
     console.log(this.state);
     return (
       <div className="imgboard">
-        <ImageForm addImage={this.addImg}/>
+        <ImageForm images={this.state.images} addImage={this.addImg}/>
         <ImageList images={this.state.images}/>
       </div>
     )
