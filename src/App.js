@@ -28,7 +28,7 @@ class ImageForm extends Component {
         <label htmlFor="caption">Give your image a caption!</label>
         <input id="caption" placeholder="caption.." />
 
-        <button type="submit" onSubmit={this.props.handleSubmit}>Submit Image</button>
+        <button onClick={this.props.handleClick}>Submit Image</button>
         <button></button>
       </form>
     </div>
@@ -60,7 +60,7 @@ class ImageBoard extends Component {
     this.state = {
       images: []
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -69,13 +69,11 @@ class ImageBoard extends Component {
   }
 
   handleChange(event) {
+    images.push({url: event.target.value});
 
-    this.setState({
-      url: event.target.value
-    })
-  }
-
-  handleSubmit() {
+}
+  handleClick(event) {
+    event.preventDefault();
     console.log(this.state);
   }
 
@@ -88,7 +86,7 @@ class ImageBoard extends Component {
     console.log(this.state);
     return (
       <div className="imgboard">
-        <ImageForm images={this.state.images} handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>
+        <ImageForm images={this.state.images} handleClick={this.handleClick} handleChange={this.handleChange}/>
         <ImageList images={this.state.images}/>
       </div>
     )
